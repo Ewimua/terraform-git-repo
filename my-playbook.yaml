@@ -1,0 +1,14 @@
+---
+- name: install enable and run apache webserver
+  hosts: all
+  tasks:
+  - name: install 
+    apt:
+      name: apache2
+      state: latest
+  - name: run and enable
+    service:
+      name: apache2
+      state: started
+      enabled: true
+  

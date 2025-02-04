@@ -13,8 +13,8 @@ provider "aws" {
 }
 locals {
   instance_type = {
-    default = "t2.nano"
-    dev = "t2.micro"
+    default = "t2.micro"
+    dev = "t2.nano"
     prod = "m5.large"
   }
 }
@@ -74,7 +74,7 @@ resource "aws_instance" "myec2" {
     security_groups = ["dynamic_sg"]
     tags = {
       Name = "jenkins-server"
-      Env  = "Production"
+      Env  = terraform.workspace
     }
     connection {
       type = "ssh"

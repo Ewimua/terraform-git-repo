@@ -3,6 +3,6 @@ terraform {
     bucket = "s3-ewi-backend"
     key    = "network/terraform.tfstate"
     region = "us-east-1"
-    #dynamodb_table = "terraform-state-locking"
+    dynamodb_table = "terraform-state-locking"
   }
 }

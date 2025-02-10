@@ -91,13 +91,13 @@ resource "aws_instance" "myec2" {
   # }
   # provisioner "file" {
   #   source      = "script.sh"
-  #   destination = "script.sh"
+  #   destination = "/tmp/script.sh"
   # }
 
   # provisioner "remote-exec" {
   #   inline = [
-  #     "chmod +x script.sh",
-  #     "sudo ./script.sh",
+  #     "/usr/bin/chmod +x /tmp/script.sh",
+  #     "/usr/bin/bash /tmp/script.sh",
   #   ]
   # }
 
@@ -118,9 +118,9 @@ resource "aws_instance" "myec2" {
   provisioner "local-exec" {
     command = "sleep 30 && echo ${self.public_ip} > inventory && ansible-playbook -i inventory my-playbook.yaml"
   }
-}
 
+}
 output "public_ip" {
   value = aws_instance.myec2.public_ip
-
 }
+

@@ -65,8 +65,6 @@ resource "aws_security_group" "dynamic_sg" {
 
 }
 
-
-
 resource "aws_instance" "myec2" {
   ami             = data.aws_ami.my_imgage.image_id
   instance_type   = local.instance_type[terraform.workspace]
@@ -84,37 +82,15 @@ resource "aws_instance" "myec2" {
     script_path = "terraform_provisioner_%RAND%.sh"
   }
 
-
-  # provisioner "file" {
-  #   source      = "script"
-  #   destination = "/tmp/script"
-  # }
-  # provisioner "file" {
-  #   source      = "script.sh"
-  #   destination = "/tmp/script.sh"
-  # }
-
   # provisioner "remote-exec" {
   #   inline = [
-  #     "/usr/bin/chmod +x /tmp/script.sh",
-  #     "/usr/bin/bash /tmp/script.sh",
+  #         "sudo apt update",
+  #         "sudo apt upgrade -y",
+  #         "sudo apt -y install apache2",
+  #         "sudo systemctl enable --now apache2"
   #   ]
   # }
 
-  # provisioner "remote-exec" {
-  #   inline = [
-  #     "sudo chmod +x /tmp/script",
-  #     "sudo /tmp/script",
-  #   ]
-  # }
-
-  # provisioner "remote-exec" {
-  #   inline = [
-  #     "sudo apt update",
-  #     "sudo apt -y install apache2",
-  #     "sudo systemctl enable --now apache2"
-  #   ]
-  # }
   provisioner "local-exec" {
     command = "sleep 30 && echo ${self.public_ip} > inventory && ansible-playbook -i inventory my-playbook.yaml"
   }
